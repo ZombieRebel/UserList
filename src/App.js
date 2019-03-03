@@ -27,7 +27,6 @@ class App extends Component {
         "gender": "female"
       } 
     ],
-    isOpen: false,
     currentIndex: -1,
     selectedUuid: null,
     isOpenAll: [false],
@@ -115,8 +114,6 @@ class App extends Component {
               currentIndex={this.state.currentIndex}
               plusButtonClicked={this.state.plusButtonClicked}
   />
-          
-
           <br></br>
           <form onSubmit={this.handleSubmit}>
             <button className="btn btn-primary btn-lg" type="submit">Add New User</button>

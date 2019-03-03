@@ -12,7 +12,7 @@ const User = (props) => {
     return (
         <div>
         <div className="cardBlock container-fluid" >
-        <div className="row">
+        <div className="row rowpadding">
             <div className="col-sm justify-content-center">
                 <img 
                     className="avatar rounded-circle border border-white" 

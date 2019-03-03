@@ -8,8 +8,10 @@ function jsUcfirst(string)
 const UserEnlarged = (props) => {
     return (
       <div>
-        <div className="row"> 
+        <div className="row "> 
+        <div className="col-sm">  
           <h1>{jsUcfirst(props.userProps.name.first)}</h1>
+          </div>
         </div>
         <div className="row"> 
           <div className="col-sm">  
