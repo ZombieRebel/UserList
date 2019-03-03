@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
-
-import UsersList from './components/UsersList';
+import Searchform from './components/SeachForm';
+import UsersList from './components/User/UsersList';
 import InitialTableNames from './components/InitialTableNames';
+import Chart from './components/Chart/Chart';
+import Modal from './components/Chart/Modal';
+
 
 class App extends Component {
   state = {
@@ -20,38 +23,41 @@ class App extends Component {
         "registered": {"date" : "04.08.2012"},
         "email": "Ttest@test.com",
         "dob" : {"date" : "1978-03-27T10:13:43Z"},
-        "cell" : "0993399323423"  
+        "cell" : "0993399323423",
+        "gender": "female"
       } 
     ],
     isOpen: false,
     currentIndex: -1,
-    selectedUuid: null
+    selectedUuid: null,
+    isOpenAll: [false],
+    search: '',
+    countMale: 0,
+    countFemale: 0,
+    show: false,
+    plusButtonClicked: false
   }
 
-  viewToggleHandler = (i, id) => {
-    const currentState = this.state.isOpen;
-    this.setState({
-      currentIndex : i,
-      isOpen : !currentState,
-      
-    })
-    console.log(this.state.currentIndex);
-    console.log(this.state.isOpen);
+  showModal = () => {
+    this.countGender();
+    this.setState({ show: true });
+  }
+
+  hideModal = () => {
+    this.setState({ show: false });
   };
 
-  /* viewToggleHandler = (id) => {
-    const currentState = this.state.isOpen;
-    
-    this.state.users.map((item, j) => {
-        if(item.login.uuid === id){
-          this.setState({isOpen : !currentState, selectedUuid: id});
-          console.log(this.state.isOpen);
-          console.log(this.state.selectedUuid);
-          
-        }
-        return id;
-      })
-    } */
+  viewToggleHandler = (i) => {
+    const nextIsOpenAll = this.state.isOpenAll.map((element, j) => {
+      return j === i ? !element : false;
+    });
+    this.setState({
+      currentIndex : i,
+      isOpenAll: nextIsOpenAll,
+      plusButtonClicked: !this.state.plusButtonClicked
+    })
+  };
+
         
   handleSubmit = event => {
     event.preventDefault();
@@ -59,32 +65,64 @@ class App extends Component {
     .then(resp => {
         const person = resp.data.results[0]; 
         this.setState((prevState, props) => ({
-          users: prevState.users.concat(person)}
+          users: prevState.users.concat(person),
+          isOpenAll: prevState.isOpenAll.concat(false)
+        }
         ));
-        
-        console.log(this.state.users);
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  render() {
-    
+  updateSearch(event) {
+    this.setState({search: event.target.value});
+  }
 
+  countGender = () => {
+    let males = 0;
+    let females = 0;
+    this.state.users.forEach(index => {
+      if(index.gender === "male"){
+        males++;
+      } else if (index.gender === "female"){
+        females++;
+      }
+      
+    });
+    this.setState({countMale : males, countFemale: females}); 
+  }
+
+
+  render() {
+  
+  let filteredUsers = this.state.users.filter(
+    (user) => {return user.name.first.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;}
+  );
+    
     return (
-      <div className="App jumbotron" >
+      <div className="App jumbotron container bg-secondary" >
+
+          <Searchform onChange={(e) => this.updateSearch(e)} search={this.state.search} />
+          <Modal show={this.state.show} handleClose={this.hideModal}>
+            <Chart countGender={(e) => this.countGender(e)} males={this.state.countMale} females={this.state.countFemale}/>
+          </Modal>
           <InitialTableNames />
           <UsersList 
-              users={this.state.users} 
+              users={filteredUsers} 
               viewToggled={(e)=> this.viewToggleHandler(e)} 
-              isOpen={this.state.isOpen}              
+              isOpenAll={this.state.isOpenAll}              
               currentIndex={this.state.currentIndex}
+              plusButtonClicked={this.state.plusButtonClicked}
   />
           
+
+          <br></br>
           <form onSubmit={this.handleSubmit}>
-            <button type="submit">Add</button>
+            <button className="btn btn-primary btn-lg" type="submit">Add New User</button>
           </form>
+          <br></br>
+          <button className="btn btn-info" onClick={this.showModal}>Show Chart</button>
          
       </div>
     );
@@ -92,10 +130,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-/*
-<UsersList users={this.state.users} viewToggled={(e)=> this.viewToggleHandler(e)} 
-selectedUuid={this.state.selectedUuid} isOpen={this.state.isOpen}
-
-*/ 

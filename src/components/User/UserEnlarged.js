@@ -34,7 +34,7 @@ const UserEnlarged = (props) => {
           </div>
           <div className="col-sm">
             <img 
-              className="avatar rounded-circle" 
+              className="avatar rounded-circle border border-white" 
               src={props.userProps.picture.large} 
               alt="placeholdr"/>
           </div>

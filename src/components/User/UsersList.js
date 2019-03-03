@@ -12,16 +12,16 @@ const UsersList = (props) => {
             } else {backGroundColor = "bg-secondary"; textColor = "text-body"}
             
             return (
-                <div className={backGroundColor + " " + textColor}>
+                <div key={user.login.uuid}  className={backGroundColor + " " + textColor}>
                     <User
-                        key={user.login.uuid} 
+                        
                         {...user} 
                         toggleView={() => props.viewToggled(i)} 
                         userProps={user}
                         index={i} 
                         currentIndex={props.currentIndex}
-                        isOpen={props}
-                        selectedUuid={props.selectedUuid}
+                        isOpenAll={props.isOpenAll}
+                        plusButtonClicked={props.plusButtonClicked}
                     />
                 </div>
 
