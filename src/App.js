@@ -5,7 +5,7 @@ import Searchform from './components/SeachForm';
 import UsersList from './components/User/UsersList';
 import InitialTableNames from './components/InitialTableNames';
 import Chart from './components/Chart/Chart';
-import Modal from './components/Chart/Modal';
+import ModalForm from './components/Chart/Modal';
 
 
 class App extends Component {
@@ -103,9 +103,9 @@ class App extends Component {
       <div className="App jumbotron container bg-secondary" >
 
           <Searchform onChange={(e) => this.updateSearch(e)} search={this.state.search} />
-          <Modal show={this.state.show} handleClose={this.hideModal}>
+          <ModalForm show={this.state.show} handleClose={this.hideModal}>
             <Chart countGender={(e) => this.countGender(e)} males={this.state.countMale} females={this.state.countFemale}/>
-          </Modal>
+          </ModalForm>
           <InitialTableNames />
           <UsersList 
               users={filteredUsers} 

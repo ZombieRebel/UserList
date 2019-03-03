@@ -27,22 +27,22 @@ const renderCustomizedLabel = ( {
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+    <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
       { `${item.name} ${(percent * 100).toFixed(0)}%`}
     </text>
     
   );
 };
-    return (<div >
+    return (<div className="align-items-center justify-content-center text-center" >
        
-      <PieChart width={400} height={400}>
+      <PieChart width={500} height={450}>
         <Pie
           data={data}
           cx={250}
           cy={200}
           labelLine={true}
           label={renderCustomizedLabel}
-          outerRadius={70}
+          outerRadius={100}
           fill="#8884d8"
           dataKey="value"
         >
