@@ -19,6 +19,9 @@ const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ( {
   cx, cy, midAngle, innerRadius, outerRadius, percent, index,
 }) => {
+  const item = data[index];
+  console.log(item);
+  console.log(index);
    const radius = innerRadius + (outerRadius - innerRadius) * 1.5;
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -26,7 +29,7 @@ const renderCustomizedLabel = ( {
   
   return (
     <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-      {`${(percent * 100).toFixed(0)}%`}
+      { `${item.name} ${(percent * 100).toFixed(0)}%`}
     </text>
     
   );
@@ -36,11 +39,11 @@ const renderCustomizedLabel = ( {
       <PieChart width={400} height={400}>
         <Pie
           data={data}
-          cx={200}
+          cx={250}
           cy={200}
           labelLine={true}
           label={renderCustomizedLabel}
-          outerRadius={80}
+          outerRadius={70}
           fill="#8884d8"
           dataKey="value"
         >
